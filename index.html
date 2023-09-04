@@ -811,10 +811,10 @@
 		let hourOfMillisecs = 3600000;
 		let hoursOfOneWeek = 168;
 		
-		let week = (pastTimeOfStartCurrentYear / hourOfMillisecs / hoursOfOneWeek).toFixed(0)
+		let week = (pastTimeOfStartCurrentYear / hourOfMillisecs / hoursOfOneWeek + 1).toFixed(0)
 
 
-		// console.log(nedelya)
+		console.log(week)
 		if (week%2 === 0) {
 			console.log("chet")
 
