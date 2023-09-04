@@ -5,6 +5,15 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=KOI8-R">
 	<title>Расписание</title>
 	<link rel="stylesheet" type="text/css" href="./Расписание_files/view.css">
+	<style>
+		.today {
+			background-color: #2faa73;
+		}
+
+		.zavtra {
+			background-color: #2d6f9b;
+		}
+	</style>
 </head>
 
 <!--<span tal:content="python:days_spisok">_день_недели_</span>$-->
@@ -32,13 +41,7 @@
 		</tbody>
 	</table>
 
-
-
-
-
-
-
-	<table class="time_table">
+	<table id="nechet" class="time_table">
 		<colgroup>
 			<col width="8px">
 			<col width="32px">
@@ -55,27 +58,27 @@
 				<td>&nbsp;</td>
 				<td>время</td>
 
-				<td>понедельник</td>
+				<td class="Mon">понедельник</td>
 				<!-- +' '+days_spisok[week][rec][0] -->
 
 
-				<td>вторник</td>
+				<td class="Tue">вторник</td>
 				<!-- +' '+days_spisok[week][rec][0] -->
 
 
-				<td>среда</td>
+				<td class="Wed">среда</td>
 				<!-- +' '+days_spisok[week][rec][0] -->
 
 
-				<td>четверг</td>
+				<td class="Thu">четверг</td>
 				<!-- +' '+days_spisok[week][rec][0] -->
 
 
-				<td>пятница</td>
+				<td class="Fri">пятница</td>
 				<!-- +' '+days_spisok[week][rec][0] -->
 
 
-				<td>суббота</td>
+				<td class="Sat">суббота</td>
 				<!-- +' '+days_spisok[week][rec][0] -->
 
 			</tr>
@@ -436,7 +439,7 @@
 	</table>
 
 
-	<table class="time_table">
+	<table id="chet" class="time_table">
 		<colgroup>
 			<col width="8px">
 			<col width="32px">
@@ -453,27 +456,27 @@
 				<td>&nbsp;</td>
 				<td>время</td>
 
-				<td>понедельник</td>
+				<td class="Mon">понедельник</td>
 				<!-- +' '+days_spisok[week][rec][0] -->
 
 
-				<td>вторник</td>
+				<td class="Tue">вторник</td>
 				<!-- +' '+days_spisok[week][rec][0] -->
 
 
-				<td>среда</td>
+				<td class="Wed">среда</td>
 				<!-- +' '+days_spisok[week][rec][0] -->
 
 
-				<td>четверг</td>
+				<td class="Thu">четверг</td>
 				<!-- +' '+days_spisok[week][rec][0] -->
 
 
-				<td>пятница</td>
+				<td class="Fri">пятница</td>
 				<!-- +' '+days_spisok[week][rec][0] -->
 
 
-				<td>суббота</td>
+				<td class="Sat">суббота</td>
 				<!-- +' '+days_spisok[week][rec][0] -->
 
 			</tr>
@@ -794,8 +797,62 @@
 
 	<p>&nbsp;</p>
 
+	<div>
+		<div style="width: 150px;" class="today">&nbsp; Сегодня &nbsp;</div>
+		<div style="width: 150px;" class="zavtra">&nbsp; Завтра &nbsp;</div>
+	</div>
+
 	<script src="./Расписание_files/jquery.min.js.download"></script>
 	<script type="text/javascript">
+		let currentDateTime = new Date();
+		let startTimeOfCurrentYear = (new Date(currentDateTime.getFullYear(), 0, 1)).getTime();
+		let currentTime = currentDateTime.getTime();
+		let pastTimeOfStartCurrentYear = currentTime - startTimeOfCurrentYear;
+		let hourOfMillisecs = 3600000;
+		let hoursOfOneWeek = 168;
+		
+		let week = (pastTimeOfStartCurrentYear / hourOfMillisecs / hoursOfOneWeek).toFixed(0)
+
+
+		// console.log(nedelya)
+		if (week%2 === 0) {
+			console.log("chet")
+
+			const weekId = document.querySelector('#nechet');
+
+			const options = { weekday: 'short' };
+
+			const date = new Date();
+			const dayOfWeek = date.toLocaleString('en-US', options);
+
+			const tomorrow = new Date(date.getTime() + (24 * 60 * 60 * 1000));
+			const dayOfWeek_next = tomorrow.toLocaleString('en-US', options);
+
+			const day = weekId.querySelector('.' + dayOfWeek)
+			day.setAttribute("class", "today");
+
+			const day_next = weekId.querySelector('.' + dayOfWeek_next)
+			day_next.setAttribute("class", "zavtra");
+
+		} else {
+			console.log("nechet")
+
+			const weekId = document.querySelector('#nechet');
+
+			const options = { weekday: 'short' };
+
+			const date = new Date();
+			const dayOfWeek = date.toLocaleString('en-US', options);
+
+			const tomorrow = new Date(date.getTime() + (24 * 60 * 60 * 1000));
+			const dayOfWeek_next = tomorrow.toLocaleString('en-US', options);
+
+			const day = weekId.querySelector('.' + dayOfWeek)
+			day.setAttribute("class", "today");
+
+			const day_next = weekId.querySelector('.' + dayOfWeek_next)
+			day_next.setAttribute("class", "zavtra");
+		}
 		$(document).ready(function () {
 			$("a.button_close_").click(function () {
 				window.close();
